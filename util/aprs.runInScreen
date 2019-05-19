@@ -2,9 +2,17 @@
 
 # determine what we will name the screen
 if [ -z ${2+x} ]; then 
+	# if only one argument, the screen name is the basename of that argument
 	SCREEN_NAME=`basename $1`
 else 
+	# if second argument, we use that for the screen name
 	SCREEN_NAME=$2
 fi
 
-screen -d -m -S $SCREEN_NAME "$1"
+if [ -z ${3+x} ]; then 
+	# user to run as not specified, so we run as ourselves
+	screen -d -m -S $SCREEN_NAME "$1"
+else
+	# third argument is user to run command as
+	su $3 -c "screen -d -m -S $SCREEN_NAME \"$1\""
+fi
