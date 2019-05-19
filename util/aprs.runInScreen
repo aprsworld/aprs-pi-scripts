@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# determine what we will name the screen
+if [ -z ${2+x} ]; then 
+	SCREEN_NAME=`basename $1`
+else 
+	SCREEN_NAME=$2
+fi
+
+screen -d -m -S $SCREEN_NAME "$1"

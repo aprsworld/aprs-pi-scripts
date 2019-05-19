@@ -1,0 +1,10 @@
+#!/bin/bash
+# name of this script for console messages
+ME=`basename "$0"`
+
+echo "# [$ME] removing history and keys from development"
+rm -vrf /home/aprs/.ssh
+rm -vf /home/aprs/.bash_history
+rm -vf /home/aprs/.gitconfig
+rm -vrf /root/.ssh
+rm -vf /root/.bash_history

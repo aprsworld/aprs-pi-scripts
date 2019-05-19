@@ -1,0 +1,12 @@
+#!/bin/bash
+# name of this script for console messages
+ME=`basename "$0"`
+
+# Make sure only root can run our script
+if [[ $EUID -ne 0 ]]; then
+   echo "[$ME] this script must be run as root" 1>&2
+   exit 1
+fi
+
+echo "[$ME] remounting root filesystem as read only"
+mount -o remount,ro /
