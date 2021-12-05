@@ -1,0 +1,12 @@
+[Unit]
+Description=ENC28J60 module MAC Address
+Wants=network-pre.target
+Before=network-pre.target
+BindsTo=sys-subsystem-net-devices-eth0.device
+After=sys-subsystem-net-devices-eth0.device
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/aprs.set_interface_mac_from_24AA02E48T eth0
+ExecStart=/sbin/ip link set dev eth0 up
+[Install]
+WantedBy=multi-user.target
