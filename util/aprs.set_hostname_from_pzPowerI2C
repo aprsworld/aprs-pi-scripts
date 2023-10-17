@@ -28,4 +28,5 @@ else
 	echo "[$ME] setting system hostname to $NEW_HOSTNAME"
 	hostname $NEW_HOSTNAME
 	echo $NEW_HOSTNAME > /etc/hostname
+	hostnamectl set-hostname $NEW_HOSTNAME
 fi
