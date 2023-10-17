@@ -1,0 +1,31 @@
+#!/bin/bash
+# name of this script for console messages
+ME=`basename "$0"`
+
+
+# Make sure only root can run our script
+if [[ $EUID -ne 0 ]]; then
+   echo "[$ME] this script must be run as root" 1>&2
+   exit 1
+fi
+
+# determine prefix or default to cam
+if [ -z ${1+x} ]; then 
+	# if no arguments, then default to cam
+	PREFIX="cam"
+else 
+	# if second argument, we use that for the prefix
+	PREFIX=$1
+fi
+
+CURRENT_HOSTNAME=`hostname`
+NEW_HOSTNAME=$PREFIX`/usr/local/bin/pzPowerI2C 2>/dev/null | jq -r '.pzPowerI2C.configuration.serial_number'`
+
+if [ "$NEW_HOSTNAME" = "$CURRENT_HOSTNAME" ]; then
+	echo "[$ME] current hostname of $CURRENT_HOSTNAME matches pzPowerI2C generated hostname of $NEW_HOSTNAME"
+else
+	echo "[$ME] current hostname of $CURRENT_HOSTNAME does not match pzPowerI2C generated hostname of $NEW_HOSTNAME"
+	echo "[$ME] setting system hostname to $NEW_HOSTNAME"
+	hostname $NEW_HOSTNAME
+	echo $NEW_HOSTNAME > /etc/hostname
+fi
